@@ -13,7 +13,7 @@ class Connector
     {
         $this->backends[] = $backend;
     }
-    
+
     public function getConfig($dsn)
     {
         if (filter_var($dsn, FILTER_VALIDATE_URL)) {
@@ -26,18 +26,24 @@ class Connector
             if ($port) {
                 $config->setPort($port);
             }
-            $config->setName(substr(parse_url($dsn, PHP_URL_PATH), 1));
+            $urlPath = parse_url($dsn, PHP_URL_PATH);
+            if (parse_url($dsn, PHP_URL_SCHEME) == 'sqlite') {
+                $config->setName($urlPath);
+            } else {
+                $config->setName(substr($urlPath, 1));
+            }
+
             // TODO: support further resolving cluster/server settings
             // from backends based on address/host/server?
             return $config;
         }
-        
+
         foreach ($this->backends as $backend) {
             $dsnKeys = $backend->getKeys($dsn);
             if ($dsnKeys) {
                 $config = new Config();
                 $this->loadKeys($config, $dsnKeys);
-                
+
                 if ($config->getCluster()) {
                     $clusterKeys = $backend->getKeys('clusters/' . $config->getCluster());
                     if (!$clusterKeys) {
@@ -45,7 +51,7 @@ class Connector
                     }
                     $this->loadKeys($config, $clusterKeys);
                 }
-                
+
                 if ($config->getServer()) {
                     $serverKeys = $backend->getKeys('servers/' . $config->getServer());
                     if (!$serverKeys) {
@@ -58,7 +64,7 @@ class Connector
         }
         throw new RuntimeException("Can't resolve DSN `" . $dsn . '`');
     }
-    
+
     public function getPdoDsn(Config $config, $mode = 'db')
     {
         switch ($mode) {
@@ -81,14 +87,14 @@ class Connector
                 }
                 break;
             case 'sqlite':
-                $pdoDsn .= $config->getName() . ';';
+                $pdoDsn .= $config->getName();
                 break;
             default:
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());
         }
         return $pdoDsn;
     }
-    
+
     public function create(Config $config)
     {
         if ($this->exists($config)) {
@@ -107,7 +113,7 @@ class Connector
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());
         }
     }
-    
+
     public function drop(Config $config)
     {
         if (!$this->exists($config)) {
@@ -126,7 +132,7 @@ class Connector
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());
         }
     }
-    
+
     public function exists(Config $config)
     {
         switch ($config->getDriver()) {
@@ -142,19 +148,22 @@ class Connector
                     ]
                 );
                 return (bool) $stmt->fetchColumn();
+            case 'sqlite':
+                return $this->getPdo($config, 'server');
+                break;
             default:
                 throw new RuntimeException("Unsupported driver");
         }
     }
-    
+
     public function getPdo(Config $config, $mode = 'db')
     {
         $pdoDsn = $this->getPdoDsn($config, $mode);
         $config->validate(); // throws if invalid
-        $pdo = new PDO($pdoDsn, $config->getUsername(), $config->getPassword());
-        return $pdo;
+
+        return new PDO($pdoDsn, $config->getUsername(), $config->getPassword());
     }
-    
+
     public function loadKeys(Config $config, $keys)
     {
         if (!$keys) {

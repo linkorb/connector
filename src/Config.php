@@ -15,91 +15,91 @@ class Config
     protected $address;
     protected $port = 3306;
     protected $properties = [];
-    
+
     public function getName()
     {
         return $this->name;
     }
-    
+
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
-    
+
     public function getPort()
     {
         return $this->port;
     }
-    
+
     public function setPort($port)
     {
         $this->port = $port;
         return $this;
     }
-    
+
     public function getServer()
     {
         return $this->server;
     }
-    
+
     public function setServer($server)
     {
         $this->server = $server;
         return $this;
     }
-    
+
     public function getCluster()
     {
         return $this->cluster;
     }
-    
+
     public function setCluster($cluster)
     {
         $this->cluster = $cluster;
         return $this;
     }
-    
-    
+
+
     public function getAddress()
     {
         return $this->address;
     }
-    
+
     public function setAddress($address)
     {
         $this->address = $address;
         return $this;
     }
-    
-    
+
+
     public function getPassword()
     {
         return $this->password;
     }
-    
+
     public function setPassword($password)
     {
         $this->password = $password;
         return $this;
     }
-    
+
     public function getUsername()
     {
         return $this->username;
     }
-    
+
     public function setUsername($username)
     {
         $this->username = $username;
         return $this;
     }
-    
+
     public function getDriver()
     {
         return $this->driver;
     }
-    
+
     public function setDriver($driver)
     {
         $this->driver = $driver;
@@ -110,14 +110,14 @@ class Config
         }
         return $this;
     }
-    
-    
+
+
     public function setProperty($key, $value)
     {
         $this->properties[$key] = $value;
         return $this;
     }
-    
+
     public function validate()
     {
         if (!$this->getName()) {
@@ -144,6 +144,5 @@ class Config
             default:
                 throw new RuntimeException("Unsupported driver: " . $this->getDriver());
         }
-        
     }
 }
