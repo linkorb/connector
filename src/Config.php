@@ -15,6 +15,7 @@ class Config
     protected $address;
     protected $port = 3306;
     protected $properties = [];
+    protected $fileName;
 
     public function getName()
     {
@@ -111,6 +112,17 @@ class Config
         return $this;
     }
 
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+
+        return $this;
+    }
 
     public function setProperty($key, $value)
     {

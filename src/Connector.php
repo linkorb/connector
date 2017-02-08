@@ -28,7 +28,9 @@ class Connector
             }
             $urlPath = parse_url($dsn, PHP_URL_PATH);
             if (parse_url($dsn, PHP_URL_SCHEME) == 'sqlite') {
-                $config->setName($urlPath);
+                $i = pathinfo($urlPath);
+                $config->setName($i['filename']);
+                $config->setFileName($urlPath);
             } else {
                 $config->setName(substr($urlPath, 1));
             }
@@ -87,7 +89,7 @@ class Connector
                 }
                 break;
             case 'sqlite':
-                $pdoDsn .= $config->getName();
+                $pdoDsn .= $config->getFileName();
                 break;
             default:
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());
