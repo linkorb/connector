@@ -79,6 +79,7 @@ class Connector
                 if ($mode=='db') {
                     $pdoDsn .= 'dbname=' . $config->getName() . ';';
                 }
+                $pdoDsn .= 'charset=utf8;';
                 break;
             case 'sqlite':
                 $pdoDsn .= $config->getName() . ';';
