@@ -24,6 +24,7 @@ class IniBackend implements BackendInterface
             return null;
         }
         $ini = file_get_contents($filename);
+        $ini = str_replace('#', ';', $ini);
         $keys = parse_ini_string($ini);
         return $keys;
     }
