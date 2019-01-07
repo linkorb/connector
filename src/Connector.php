@@ -48,18 +48,18 @@ class Connector
 
                 if ($config->getCluster()) {
                     $clusterKeys = $backend->getKeys('clusters/' . $config->getCluster());
-                    if (!$clusterKeys) {
-                        throw new RuntimeException("No configuration keys found for cluster: " . $config->getCluster());
+                    if ($clusterKeys) {
+                        $this->loadKeys($config, $clusterKeys);
                     }
-                    $this->loadKeys($config, $clusterKeys);
                 }
 
                 if ($config->getServer()) {
                     $serverKeys = $backend->getKeys('servers/' . $config->getServer());
-                    if (!$serverKeys) {
-                        throw new RuntimeException("No configuration keys found for server: " . $config->getServer());
+                    if ($serverKeys) {
+                        $this->loadKeys($config, $serverKeys);
+                    } else {
+                        $config->setAddress($config->getServer());
                     }
-                    $this->loadKeys($config, $serverKeys);
                 }
                 return $config;
             }
