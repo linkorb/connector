@@ -132,7 +132,7 @@ class Config
 
     public function getProperty($key)
     {
-        if (!isset($this->properties)) {
+        if (!isset($this->properties[$key])) {
             return null;
         }
         return $this->properties[$key];
