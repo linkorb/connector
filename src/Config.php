@@ -130,6 +130,14 @@ class Config
         return $this;
     }
 
+    public function getProperty($key)
+    {
+        if (!isset($this->properties)) {
+            return null;
+        }
+        return $this->properties[$key];
+    }
+
     public function validate()
     {
         if (!$this->getName()) {
