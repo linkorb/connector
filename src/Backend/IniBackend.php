@@ -12,7 +12,7 @@ class IniBackend implements BackendInterface
         $this->path = $path;
         $this->extension = $extension;
         if (!file_exists($path)) {
-            throw new RuntimeException("No such path: " . $path);
+            throw new \RuntimeException("No such path: " . $path);
         }
     }
     
