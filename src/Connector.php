@@ -92,6 +92,9 @@ class Connector
             case 'sqlite':
                 $pdoDsn .= $config->getFileName();
                 break;
+            case 'sqlsrv':
+                $pdoDsn .= 'Server=' . $config->getAddress() . ';Database=' . $config->getName();
+                break;
             default:
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());
         }

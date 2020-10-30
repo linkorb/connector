@@ -161,6 +161,11 @@ class Config
                 break;
             case 'sqlite':
                 break;
+            case 'sqlsrv':
+                if (!$this->getAddress()) {
+                    throw new RuntimeException("Missing address");
+                }
+                break;
             default:
                 throw new RuntimeException("Unsupported driver: " . $this->getDriver());
         }
