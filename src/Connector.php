@@ -23,6 +23,13 @@ class Connector
             $config->setPassword(parse_url($dsn, PHP_URL_PASS));
             $config->setAddress(parse_url($dsn, PHP_URL_HOST));
             $port = parse_url($dsn, PHP_URL_PORT);
+            $arguments = parse_url($dsn, PHP_URL_QUERY);
+            parse_str($arguments, $arguments); // parse ?x=y&a=b format into k/v array
+
+            foreach ($arguments as $k=>$v) {
+                $config->setArgument($k, $v);
+            }
+
             if ($port) {
                 $config->setPort($port);
             }
@@ -94,6 +101,9 @@ class Connector
                 break;
             case 'sqlsrv':
                 $pdoDsn .= 'Server=' . $config->getAddress() . ';Database=' . $config->getName();
+                foreach ($config->getArguments() as $k=>$v) {
+                    $pdoDsn .= ';' . $k . '=' . $v;
+                }
                 break;
             default:
                 throw new RuntimeException("Unsupported driver: " . $config->getDriver());

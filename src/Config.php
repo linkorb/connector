@@ -14,7 +14,8 @@ class Config
     protected $cluster;
     protected $address;
     protected $port = 3306;
-    protected $properties = [];
+    protected $properties = []; // arbitrary database properties such as name, description, tier, etc
+    protected $arguments = []; // DSN arguments
     protected $fileName;
 
     public function getName()
@@ -136,6 +137,25 @@ class Config
             return null;
         }
         return $this->properties[$key];
+    }
+
+    public function setArgument($key, $value)
+    {
+        $this->arguments[$key] = $value;
+        return $this;
+    }
+
+    public function getArgument($key)
+    {
+        if (!isset($this->arguments[$key])) {
+            return null;
+        }
+        return $this->arguments[$key];
+    }
+
+    public function getArguments()
+    {
+        return $this->arguments;
     }
 
     public function validate()
