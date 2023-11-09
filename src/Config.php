@@ -2,8 +2,6 @@
 
 namespace Connector;
 
-use RuntimeException;
-
 class Config
 {
     protected $name;
@@ -17,6 +15,7 @@ class Config
     protected $properties = []; // arbitrary database properties such as name, description, tier, etc
     protected $arguments = []; // DSN arguments
     protected $fileName;
+    protected $queries = [];
 
     public function getName()
     {
@@ -26,6 +25,7 @@ class Config
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -37,6 +37,7 @@ class Config
     public function setPort($port)
     {
         $this->port = $port;
+
         return $this;
     }
 
@@ -48,6 +49,7 @@ class Config
     public function setServer($server)
     {
         $this->server = $server;
+
         return $this;
     }
 
@@ -59,9 +61,9 @@ class Config
     public function setCluster($cluster)
     {
         $this->cluster = $cluster;
+
         return $this;
     }
-
 
     public function getAddress()
     {
@@ -71,9 +73,9 @@ class Config
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
-
 
     public function getPassword()
     {
@@ -83,6 +85,7 @@ class Config
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -94,6 +97,7 @@ class Config
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -110,6 +114,7 @@ class Config
                 $this->port = 3306;
                 break;
         }
+
         return $this;
     }
 
@@ -128,6 +133,7 @@ class Config
     public function setProperty($key, $value)
     {
         $this->properties[$key] = $value;
+
         return $this;
     }
 
@@ -136,12 +142,14 @@ class Config
         if (!isset($this->properties[$key])) {
             return null;
         }
+
         return $this->properties[$key];
     }
 
     public function setArgument($key, $value)
     {
         $this->arguments[$key] = $value;
+
         return $this;
     }
 
@@ -150,6 +158,7 @@ class Config
         if (!isset($this->arguments[$key])) {
             return null;
         }
+
         return $this->arguments[$key];
     }
 
@@ -161,33 +170,52 @@ class Config
     public function validate()
     {
         if (!$this->getName()) {
-            throw new RuntimeException("Missing name");
+            throw new \RuntimeException('Missing name');
         }
         switch ($this->getDriver()) {
             case 'mysql':
             case 'pgsql':
                 if (!$this->getUsername()) {
-                    throw new RuntimeException("Missing username");
+                    throw new \RuntimeException('Missing username');
                 }
                 if (!$this->getUsername()) {
-                    throw new RuntimeException("Missing password");
+                    throw new \RuntimeException('Missing password');
                 }
                 if (!$this->getAddress()) {
-                    throw new RuntimeException("Missing address");
+                    throw new \RuntimeException('Missing address');
                 }
                 if (!$this->getPort()) {
-                    throw new RuntimeException("Missing port");
+                    throw new \RuntimeException('Missing port');
                 }
                 break;
             case 'sqlite':
                 break;
             case 'sqlsrv':
                 if (!$this->getAddress()) {
-                    throw new RuntimeException("Missing address");
+                    throw new \RuntimeException('Missing address');
                 }
                 break;
             default:
-                throw new RuntimeException("Unsupported driver: " . $this->getDriver());
+                throw new \RuntimeException('Unsupported driver: '.$this->getDriver());
         }
+    }
+
+    /**
+     * @param [array] $array
+     */
+    public function setQueries($array = []): self
+    {
+        $this->queries = $array;
+
+        return $this;
+    }
+
+    public function getQuery($key)
+    {
+        if (!isset($this->queries[$key])) {
+            return null;
+        }
+
+        return $this->queries[$key];
     }
 }
