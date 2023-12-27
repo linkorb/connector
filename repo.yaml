@@ -1,0 +1,14 @@
+codeowners:
+- owners:
+  - '@joostfaassen'
+  pattern: '*'
+description: 'Connector: Database connection resolver'
+license: mit
+license_year: 2016
+name: connector
+type: library
+visibility: public
+github:
+  default_branch: master
+  features:
+    issues: true
