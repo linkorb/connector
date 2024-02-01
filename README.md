@@ -32,7 +32,6 @@ and configure address, username, password, port and custom properties
 at a higher level. This way you can quickly mass-reconfigure all
 dbs on a given server or cluster.
 
-Build status: [![Release](https://github.com/linkorb/connector/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/connector/actions/workflows/30-release-and-build.yaml)
 
 
 
