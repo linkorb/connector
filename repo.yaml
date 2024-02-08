@@ -6,7 +6,7 @@ description: 'Connector: Database connection resolver'
 license: mit
 license_year: 2016
 name: connector
-type: library
+type: php-library
 visibility: public
 github:
   default_branch: master

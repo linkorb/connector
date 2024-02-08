@@ -37,7 +37,7 @@
           ]
       }
   },
-  "forwardPorts": [80, 3306],
+  "forwardPorts": [ 80, 8000 ],
   "remoteUser": "vscode",
 
   "secrets": {
@@ -46,5 +46,6 @@
       "documentationUrl": "https://packagist.com/orgs/linkorb"
     }
   },
-  "postCreateCommand": ".devcontainer/postCreate.sh"
+  "postCreateCommand": ".devcontainer/postCreate.sh",
+  "postStartCommand": ".devcontainer/postStart.sh"
 }
