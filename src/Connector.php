@@ -17,12 +17,12 @@ class Connector
     {
         if (filter_var($dsn, FILTER_VALIDATE_URL)) {
             $config = new Config();
-            $config->setDriver(parse_url($dsn, PHP_URL_SCHEME));
-            $config->setUsername(parse_url($dsn, PHP_URL_USER));
-            $config->setPassword(parse_url($dsn, PHP_URL_PASS));
-            $config->setAddress(parse_url($dsn, PHP_URL_HOST));
-            $port = parse_url($dsn, PHP_URL_PORT);
-            $arguments = parse_url($dsn, PHP_URL_QUERY);
+            $config->setDriver(urldecode(parse_url($dsn, PHP_URL_SCHEME)));
+            $config->setUsername(urldecode(parse_url($dsn, PHP_URL_USER)));
+            $config->setPassword(urldecode(parse_url($dsn, PHP_URL_PASS)));
+            $config->setAddress(urldecode(parse_url($dsn, PHP_URL_HOST)));
+            $port = urldecode(parse_url($dsn, PHP_URL_PORT));
+            $arguments = urldecode(parse_url($dsn, PHP_URL_QUERY));
             parse_str($arguments, $arguments); // parse ?x=y&a=b format into k/v array
 
             foreach ($arguments as $k => $v) {
