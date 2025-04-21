@@ -15,7 +15,8 @@ class Connector
 
     public function getConfig($dsn)
     {
-        if (filter_var($dsn, FILTER_VALIDATE_URL)) {
+        // SQLite DSNs (e.g. sqlite:/app/var/test.sqlite or sqlite::memory:) are valid for PHP Data Objects
+        if (strpos($dsn, 'sqlite:') === 0 || filter_var($dsn, FILTER_VALIDATE_URL)) {
             $config = new Config();
             $config->setDriver(urldecode(parse_url($dsn, PHP_URL_SCHEME)));
             $config->setUsername(urldecode(parse_url($dsn, PHP_URL_USER)));
