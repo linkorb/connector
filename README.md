@@ -1,6 +1,4 @@
 <!-- Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten. -->
-connector
-============
 
 Connector helps you to manage your app's database connection configurations
 in dynamic environments.
@@ -31,7 +29,6 @@ Using this feature you can define the server or cluster at the db level,
 and configure address, username, password, port and custom properties
 at a higher level. This way you can quickly mass-reconfigure all
 dbs on a given server or cluster.
-
 
 
 

@@ -3,12 +3,13 @@ codeowners:
   - '@joostfaassen'
   pattern: '*'
 description: 'Connector: Database connection resolver'
-license: mit
-license_year: 2016
-name: connector
-type: php-library
-visibility: public
 github:
   default_branch: master
   features:
     issues: true
+license: mit
+license_year: 2016
+name: connector
+type: php-library
+version: v0.21.0
+visibility: public
