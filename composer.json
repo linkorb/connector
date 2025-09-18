@@ -1,7 +1,7 @@
 {
     "name": "linkorb/connector",
     "description": "Database connection config resolver",
-    "homepage": "http://www.github.com/linkorb/connector",
+    "homepage": "https://www.github.com/linkorb/connector",
     "keywords": ["php", "connector", "pdo", "linkorb"],
     "type": "library",
     "authors": [
@@ -17,7 +17,7 @@
     "autoload": {
         "psr-4": {
             "Connector\\": "src/"
-        } 
+        }
     },
     "license": "MIT"
 }
