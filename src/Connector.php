@@ -21,17 +21,21 @@ class Connector
             $config->setUsername(urldecode(parse_url($dsn, PHP_URL_USER)));
             $config->setPassword(urldecode(parse_url($dsn, PHP_URL_PASS)));
             $config->setAddress(urldecode(parse_url($dsn, PHP_URL_HOST)));
+
             $port = urldecode(parse_url($dsn, PHP_URL_PORT));
-            $arguments = urldecode(parse_url($dsn, PHP_URL_QUERY));
-            parse_str($arguments, $arguments); // parse ?x=y&a=b format into k/v array
-
-            foreach ($arguments as $k => $v) {
-                $config->setArgument($k, $v);
-            }
-
             if ($port) {
                 $config->setPort($port);
             }
+
+            $query = parse_url($dsn, PHP_URL_QUERY);
+            if (is_string($query)) {
+                parse_str(urldecode($query), $arguments); // parse ?x=y&a=b format into k/v array
+
+                foreach ($arguments as $k => $v) {
+                    $config->setArgument($k, $v);
+                }
+            }
+
             $urlPath = parse_url($dsn, PHP_URL_PATH);
             if ('sqlite' == parse_url($dsn, PHP_URL_SCHEME)) {
                 $i = pathinfo($urlPath);
@@ -41,9 +45,9 @@ class Connector
                 $config->setName(substr($urlPath, 1));
             }
 
-            // query pramater
-            parse_str(parse_url($dsn, PHP_URL_QUERY), $params);
-            if ($params) {
+            // query parameter
+            if ($query) {
+                parse_str($query, $params);
                 $config->setQueries($params);
             }
 
